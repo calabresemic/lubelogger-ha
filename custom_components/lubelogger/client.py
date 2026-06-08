@@ -39,7 +39,7 @@ class LubeLoggerClient:
         self._username = username
         self._password = password
         self._session = session
-        self._auth = aiohttp.BasicAuth(username, password)
+        self._auth = aiohttp.BasicAuth(username, password) if username else None
 
     async def async_get_vehicles(self) -> list[dict[str, Any]]:
         """Get all vehicles from LubeLogger."""

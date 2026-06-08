@@ -20,8 +20,8 @@ _LOGGER = logging.getLogger(__name__)
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_URL): str,
-        vol.Required(CONF_USERNAME): str,
-        vol.Required(CONF_PASSWORD): str,
+        vol.Optional(CONF_USERNAME, default=""): str,
+        vol.Optional(CONF_PASSWORD, default=""): str,
     }
 )
 
@@ -51,9 +51,12 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
             for endpoint in endpoints_to_try:
                 try:
                     _LOGGER.debug("Trying endpoint: %s%s", url, endpoint)
+
+                    auth = aiohttp.BasicAuth(username, password) if username else None
+
                     async with session.get(
                         f"{url}{endpoint}",
-                        auth=aiohttp.BasicAuth(username, password),
+                        auth=auth,
                         timeout=aiohttp.ClientTimeout(total=10),
                         ssl=False,  # Allow self-signed certificates
                     ) as response:

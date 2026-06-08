@@ -6,8 +6,8 @@
         "description": "Enter your LubeLogger instance details",
         "data": {
           "url": "URL",
-          "username": "Username",
-          "password": "Password"
+          "username": "Username (optional)",
+          "password": "Password (optional)"
         }
       }
     },
