@@ -56,8 +56,13 @@ class LubeLoggerDataUpdateCoordinator(DataUpdateCoordinator):
 
         # For each vehicle, fetch its specific data
         for vehicle in vehicles:
-            vehicle_id = vehicle.get("Id") or vehicle.get("id")
+            vehicle_id = (
+                vehicle.get("id")
+                or vehicle.get("Id")
+                or vehicle.get("ID")
+                or vehicle.get("vehicleId")
             if not vehicle_id:
+                _LOGGER.warning("Skipping vehicle with no ID, raw data: %s", vehicle)
                 continue
 
             # Build device name from Make, Model, Year

@@ -45,7 +45,9 @@ class LubeLoggerClient:
         """Get all vehicles from LubeLogger."""
         vehicles = await self._async_request(API_VEHICLES)
         if not isinstance(vehicles, list):
+            _LOGGER.warning("Unexpected vehicle response type %s: %s", type(vehicles), vehicles)
             return []
+        _LOGGER.debug("Fetched %d vehicles: %s", len(vehicles), vehicles)
         return vehicles
 
     async def async_get_latest_odometer(
